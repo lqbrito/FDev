@@ -1,4 +1,4 @@
-# FDev
+# FDev - Fast Development in PHP and Laravel
 
 Este aplicativo é um criador de código CRUD para PHP e Laravel para melhorar a produtividade dos desenvolvedores PHP. Em sua primeira versão, ele acessa apenas bancos de 
 dados MySql via PDO, o que pode ser alterado por qualquer desenvolvedor para acessar outros SGBDs. O FDev funciona da seguinte forma:
