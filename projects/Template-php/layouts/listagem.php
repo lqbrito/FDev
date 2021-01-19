@@ -5,18 +5,19 @@
     {
         public function view($data)
         {
-            $pag = 0;
-            $[nome_model] = $data['[nome_model]'];
-            $listaTudo = $data['listaTudo'];
-            $tamanhoStringBusca = $data['tamanhoStringBusca'];
-            $textobusca = $data['textobusca'];
-            $pagina = $data['pagina'];
-            $paginas = $data['paginas'];
-            $titulo = "Cadastro de [nome_model]";
-            $campoBusca = "uma descrição";
-            $controller = "[nome_controller].php";
+            $pag = 0; // Use esta numeração para representar o crud atual e indicar sua opção de menu como ativa
+            $[nome_model] = $data['[nome_model]']; // Esta variável representa a model passada para a página
+            $listaTudo = $data['listaTudo']; // Indica se é para listar todos os registros da tabela
+            $tamanhoStringBusca = $data['tamanhoStringBusca']; //Tamanho mínimo da string de busca
+            $textobusca = $data['textobusca']; // Texto digitado pelo usuário para busca na tabela
+            $pagina = $data['pagina']; // Página atual da tabela em caso de paginação
+            $paginas = $data['paginas']; // Total de páginas da tabela em caso de paginação
+            $titulo = "Cadastro de [nome_model]"; // Título da página
+            $campoBusca = "uma descrição"; // Placeholder para o campo de busca na tabela
+            $controller = "[nome_controller].php"; // Nome do controller para retornar da página
+            // Cabeçalho comum a todas as páginas
             include_once ("../views/layouts/" . $_SESSION['app_ui'] . "_cabecalho.php");
-            $this->showMessage();
+            $this->showMessage(); // Caso hajam msgs elas são mostradas ao usuário
             ?>
 
             <div class="row mt-3">
@@ -78,7 +79,10 @@
                                     </tbody>
                                 </table>
 
-                                <?php if (!$listaTudo) $this->links($controller, $pagina, $paginas);?>
+                                <?php 
+                                    if (!$listaTudo) // Verifica se é para fazer a paginação dos dados
+                                        $this->links($controller, $pagina, $paginas);
+                                ?>
                                 
                             </div>
                         
@@ -89,6 +93,7 @@
             </div>
 
             <?php
+            // Rodapé comum a todas as páginas
             include_once ("../views/layouts/" . $_SESSION['app_ui'] . "_rodape.php");
         }
     }
