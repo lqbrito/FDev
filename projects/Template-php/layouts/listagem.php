@@ -1,10 +1,10 @@
 <?php
-include_once('../parent/view.php');
+    include_once('../parent/view.php');
 
-class listagemView extends View
-{
-    public function view($data)
+    class listagemView extends View
     {
+        public function view($data)
+        {
             $pag = 0; // Use esta numeração para representar o crud atual e indicar sua opção de menu como ativa
             $[nome_model] = $data['[nome_model]']; // Esta variável representa a model passada para a página
             $listaTudo = $data['listaTudo']; // Indica se é para listar todos os registros da tabela
@@ -26,7 +26,7 @@ class listagemView extends View
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="col-md-9 text-left">
+                            <div class="col-md-9">
                                 <?php echo $titulo; ?>
                             </div>
                             <div class="col-md-3 text-right">
@@ -41,7 +41,7 @@ class listagemView extends View
                         </div>
 
                         <div class="card-body">
-                            <div class="table-responsive mt-3">
+                            <div class="table-responsive">
                                 <table class="table table-striped table-hover table-sm table-condensed">
                                     <thead class="thead-dark">
                                         <tr>
@@ -54,7 +54,7 @@ class listagemView extends View
                                         <?php 
                                         foreach($[nome_model] as $tp)
                                         {                                   
-                                            ?>
+                                        ?>
                                             <tr>
                                                 [nome_campo]
                                                 <td>
@@ -77,7 +77,7 @@ class listagemView extends View
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <?php 
+                                        <?php 
                                         }
                                         ?>
                                     </tbody>
@@ -85,20 +85,20 @@ class listagemView extends View
 
                                 <?php 
                                     if (!$listaTudo) // Verifica se é para fazer a paginação dos dados
-                                    $this->links($controller, $pagina, $paginas);
-                                    ?>
-
-                                </div>
-
+                                        $this->links($controller, $pagina, $paginas);
+                                ?>
+                                
                             </div>
-
+                        
                         </div>
+
                     </div>
                 </div>
+            </div>
 
-                <?php
+            <?php
             // Rodapé comum a todas as páginas
-                include_once ("../views/layouts/" . $_SESSION['app_ui'] . "_rodape.php");
-            }
+            include_once ("../views/layouts/" . $_SESSION['app_ui'] . "_rodape.php");
         }
-        ?>
+    }
+?>

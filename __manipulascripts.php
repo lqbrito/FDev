@@ -312,7 +312,7 @@
 								if ($tab['Type'] == "text")
 								{
 									if ($_POST['fonte'] == 'laravel')
-										$novaLinha = substitui('[nome_campo]', "\t\t<textarea class='form-control' rows='5' id='$st' name='$st'>value='{{\$$tabela->$st}}'</textarea>", $novaLinha);
+										$novaLinha = substitui('[nome_campo]', "\t\t<textarea class='form-control' rows='5' id='$st' name='$st'>{{\$$tabela->$st}}</textarea>", $novaLinha);
 									if ($_POST['fonte'] == 'php')
 									{
 										$novaLinha = substitui('[nome_campo]', "\t\t<textarea class='form-control' rows='5' id='$st' name='$st'><?php echo \$[nome_model]['$st']; ?></textarea>", $novaLinha);
