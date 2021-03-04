@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\diversos;
+namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\globalController;
 use App\Http\Controllers\HomeController;
@@ -49,7 +49,7 @@ class workflowController extends globalController
 		try
 		{	
 			$workflow = workflow::findorfail($request->id);
-			return view('diversos.workflow.excluir', ['workflow' => $workflow]);
+			return view('App.workflow.excluir', ['workflow' => $workflow]);
 		} 
 		catch (\Exception $e) 
 		{
@@ -94,7 +94,7 @@ class workflowController extends globalController
 		try
 		{	
 			$workflow = workflow::findorfail($request->id);
-			return view('diversos.workflow.alterar', ['workflow' => $workflow]);
+			return view('App.workflow.alterar', ['workflow' => $workflow]);
 		} 
 		catch (\Exception $e) 
 		{
@@ -110,7 +110,7 @@ class workflowController extends globalController
 		try
 		{	
 			$workflow = workflow::findorfail($request->id);
-			return view('diversos.workflow.consultar', ['workflow' => $workflow]);
+			return view('App.workflow.consultar', ['workflow' => $workflow]);
 		} 
 		catch (\Exception $e) 
 		{
@@ -152,13 +152,14 @@ class workflowController extends globalController
 	public function incluir()
 	{
 		$this->validausuario();
-		return view('diversos.workflow.incluir');
+		return view('App.workflow.incluir');
 	}
 
 	public function index()
 	{
 		$this->validausuario();
 		
+		$idempresa = Session::get('idempresa');
 		$textobusca = $this->buscarpesquisa();
 		$listaTudo = strlen($textobusca) >= $this->tamanhoStringBusca;
 		if ($listaTudo)
@@ -166,6 +167,6 @@ class workflowController extends globalController
 		else
 			$workflow = workflow::where('', '=', "")->orderBy('', 'asc')->paginate(10);
 		
-		return view('diversos.workflow.listagem', ['workflow' => $workflow, 'listaTudo' => $listaTudo, 'tamanhoStringBusca' => $this->tamanhoStringBusca, 'textobusca' => $textobusca]);
+		return view('App.workflow.listagem', ['workflow' => $workflow, 'listaTudo' => $listaTudo, 'tamanhoStringBusca' => $this->tamanhoStringBusca, 'textobusca' => $textobusca]);
 	}
 }

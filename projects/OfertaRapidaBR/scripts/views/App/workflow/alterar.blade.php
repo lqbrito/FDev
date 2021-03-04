@@ -33,7 +33,7 @@
                     <div class='row'>
                     	<div class='form-group col-6'>
                     		<label class='bmd-label-floating' for='observacoes'>observacoes</label>
-                    		<textarea class='form-control' rows='5' id='observacoes' name='observacoes'>value='{{$workflow->observacoes}}'</textarea>
+                    		<textarea class='form-control' rows='5' id='observacoes' name='observacoes'>{{$workflow->observacoes}}</textarea>
                     	</div>
                     </div>
                     <div class='row'>

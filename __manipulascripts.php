@@ -244,7 +244,10 @@
 						$novaLinha = $linha;
 
 						if ($_POST['fonte'] == 'laravel')
-							$novaLinha = substitui('[nome_campo]', "<dd class='col-sm-10'>{{\$tp->$st}}</dd>", $novaLinha);
+						{
+							$novaLinha = substitui('[nome_campo]', "<dd class='col-sm-10'>{{\$[nome_model]->$st}}</dd>", $novaLinha);
+							$novaLinha = substitui('[nome_model]', $tabela, $novaLinha);
+						}
 						if ($_POST['fonte'] == 'php')
 						{
 							$novaLinha = substitui('[nome_campo]', "<dd class='col-sm-10'><?php echo \$[nome_model]['$st']; ?></dd>", $novaLinha);
@@ -360,7 +363,10 @@
 						
 						$novaLinha = $linha;
 						if ($_POST['fonte'] == 'laravel')
-							$novaLinha = substitui('[nome_campo]', "<dd class='col-sm-10'>{{\$tp->$st}}</dd>", $novaLinha);
+						{
+							$novaLinha = substitui('[nome_campo]', "<dd class='col-sm-10'>{{\$[nome_model]->$st}}</dd>", $novaLinha);
+							$novaLinha = substitui('[nome_model]', $tabela, $novaLinha);
+						}
 						if ($_POST['fonte'] == 'php')
 						{
 							$novaLinha = substitui('[nome_campo]', "<dd class='col-sm-10'><?php echo \$[nome_model]['$st']; ?></dd>", $novaLinha);

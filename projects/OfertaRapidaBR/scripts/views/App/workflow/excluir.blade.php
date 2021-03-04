@@ -28,17 +28,17 @@
                         <div class="col-lg-12">
                             <dl class="row">
                                 <dt class='col-sm-2 text-right'>id</dt>
-                                <dd class='col-sm-10'>{{$tp->id}}</dd>
+                                <dd class='col-sm-10'>{{$workflow->id}}</dd>
                                 <dt class='col-sm-2 text-right'>descricao</dt>
-                                <dd class='col-sm-10'>{{$tp->descricao}}</dd>
+                                <dd class='col-sm-10'>{{$workflow->descricao}}</dd>
                                 <dt class='col-sm-2 text-right'>observacoes</dt>
-                                <dd class='col-sm-10'>{{$tp->observacoes}}</dd>
+                                <dd class='col-sm-10'>{{$workflow->observacoes}}</dd>
                                 <dt class='col-sm-2 text-right'>idempresa</dt>
-                                <dd class='col-sm-10'>{{$tp->idempresa}}</dd>
+                                <dd class='col-sm-10'>{{$workflow->idempresa}}</dd>
                                 <dt class='col-sm-2 text-right'>created_at</dt>
-                                <dd class='col-sm-10'>{{$tp->created_at}}</dd>
+                                <dd class='col-sm-10'>{{$workflow->created_at}}</dd>
                                 <dt class='col-sm-2 text-right'>updated_at</dt>
-                                <dd class='col-sm-10'>{{$tp->updated_at}}</dd>
+                                <dd class='col-sm-10'>{{$workflow->updated_at}}</dd>
                             </dl>
                         </div>
                     </div>
