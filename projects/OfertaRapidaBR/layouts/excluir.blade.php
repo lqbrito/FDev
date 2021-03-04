@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-12">
                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Excluir</button>
-                            <a href="{{ url('/[nome_controller]') }}" class="btn btn-default" title="Fechar'"><i class="fas fa-undo"></i> Cancelar</i></a>
+                            <a href="{{ url('/[nome_controller]') }}" class="btn btn-default" title="Fechar"><i class="fas fa-undo"></i> Cancelar</i></a>
                         </div>
                     </div>
 
