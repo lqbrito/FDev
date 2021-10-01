@@ -11,10 +11,9 @@
 
 	$pastas = scandir('projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'namespaces');
 
-	$webphp = "<?php";
-	$webphp .= "\n\nuse Illuminate\Support\Facades\Route;";
-
-	
+	// Criação do script web.php para o Laravel <= 7
+	$webphp7 = "<?php";
+	$webphp7 .= "\n\nuse Illuminate\Support\Facades\Route;";
 
 	foreach ($pastas as $tp)
 		if ($tp != '.' && $tp != '..')
@@ -22,28 +21,71 @@
 			$estrutura = 'projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'namespaces' . DIRECTORY_SEPARATOR . $tp;
 			$subpastas = scandir($estrutura);
 
-			$webphp .= "\n\nRoute::namespace('$tp')->group(function () {";
+			$webphp7 .= "\n\nRoute::namespace('$tp')->group(function () {";
 			
 			if (count($subpastas) > 2)
 			{
 				foreach ($subpastas as $sub)
 				if ($sub != '.' && $sub != '..')
 				{
-					$webphp .= "\n\n\tRoute::get('/$sub', '$sub" . "Controller@index');";
-					$webphp .= "\n\tRoute::get('/$sub/incluir', '$sub" . "Controller@incluir');";
-					$webphp .= "\n\tRoute::post('/$sub/incluindo', '$sub" . "Controller@incluindo');";
-					$webphp .= "\n\tRoute::post('/$sub/consultar', '$sub" . "Controller@consultar');";
-					$webphp .= "\n\tRoute::post('/$sub/alterar', '$sub" . "Controller@alterar');";
-					$webphp .= "\n\tRoute::post('/$sub/alterando', '$sub" . "Controller@alterando');";
-					$webphp .= "\n\tRoute::post('/$sub/excluir', '$sub" . "Controller@excluir');";
-					$webphp .= "\n\tRoute::post('/$sub/excluindo', '$sub" . "Controller@excluindo');";
-					$webphp .= "\n\tRoute::any('/$sub/pesquisar', '$sub" . "Controller@pesquisar');";
+					$webphp7 .= "\n\n\tRoute::get('/$sub', '$sub" . "Controller@index');";
+					$webphp7 .= "\n\tRoute::get('/$sub/incluir', '$sub" . "Controller@incluir');";
+					$webphp7 .= "\n\tRoute::post('/$sub/incluindo', '$sub" . "Controller@incluindo');";
+					$webphp7 .= "\n\tRoute::post('/$sub/consultar', '$sub" . "Controller@consultar');";
+					$webphp7 .= "\n\tRoute::post('/$sub/alterar', '$sub" . "Controller@alterar');";
+					$webphp7 .= "\n\tRoute::post('/$sub/alterando', '$sub" . "Controller@alterando');";
+					$webphp7 .= "\n\tRoute::post('/$sub/excluir', '$sub" . "Controller@excluir');";
+					$webphp7 .= "\n\tRoute::post('/$sub/excluindo', '$sub" . "Controller@excluindo');";
+					$webphp7 .= "\n\tRoute::any('/$sub/pesquisar', '$sub" . "Controller@pesquisar');";
 				}
 			}
 
-			$webphp .= "\n\n});";
+			$webphp7 .= "\n\n});";
 		}
 
+	// Criação do script web.php para o Laravel >= 8
+	$webphp8 = "<?php";
+	$webphp8 .= "\n\nuse Illuminate\Support\Facades\Route;\n";
+
+	foreach ($pastas as $tp)
+		if ($tp != '.' && $tp != '..')
+		{
+			$estrutura = 'projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'namespaces' . DIRECTORY_SEPARATOR . $tp;
+			$subpastas = scandir($estrutura);
+
+			if (count($subpastas) > 2)
+			{
+				foreach ($subpastas as $sub)
+				if ($sub != '.' && $sub != '..')
+				{
+					$classetabela = ucfirst($sub);
+					$webphp8 .= "\nuse App\Http\Controllers\\$tp\\$classetabela" . "Controller;";
+
+				}
+			}
+
+			$webphp8 .= "\n\nRoute::namespace('$tp')->group(function () {";
+			
+			if (count($subpastas) > 2)
+			{
+				foreach ($subpastas as $sub)
+				if ($sub != '.' && $sub != '..')
+				{
+					$classetabela = ucfirst($sub);
+					$webphp8 .= "\n\n\tRoute::get('/$sub', " . "[$classetabela" . "Controller::class, 'index']);";
+					$webphp8 .= "\n\tRoute::get('/$sub/incluir', " . "[$classetabela" . "Controller::class, 'incluir']);";
+					$webphp8 .= "\n\tRoute::post('/$sub/incluindo', " . "[$classetabela" . "Controller::class, 'incluindo']);";
+					$webphp8 .= "\n\tRoute::post('/$sub/consultar', " . "[$classetabela" . "Controller::class, 'consultar']);";
+					$webphp8 .= "\n\tRoute::post('/$sub/alterar', " . "[$classetabela" . "Controller::class, 'alterar']);";
+					$webphp8 .= "\n\tRoute::post('/$sub/alterando', " . "[$classetabela" . "Controller::class, 'alterando']);";
+					$webphp8 .= "\n\tRoute::post('/$sub/excluir', " . "[$classetabela" . "Controller::class, 'excluir']);";
+					$webphp8 .= "\n\tRoute::post('/$sub/excluindo', " . "[$classetabela" . "Controller::class, 'excluindo']);";
+					$webphp8 .= "\n\tRoute::any('/$sub/pesquisar', " . "[$classetabela" . "Controller::class, 'pesquisar']);";
+				}
+			}
+
+			$webphp8 .= "\n\n});";
+		}
 	echo "<p>";
 	echo "Projeto <b>" . $_SESSION['project'] . "</b> selecionado na área de trabalho. ";
 	if (isset($_SESSION['databasename']))
@@ -55,13 +97,28 @@
 
 <div class="card">
  	<div class="card-header">
-    	Arquivo de rotas do Laravel web.php
+    	Arquivo de rotas web.php do Laravel >= 8
  	</div>
   
 	<div class="card-body">   
     	<div class="form-row">
 			<div class="col-md-12">
-				 <textarea class='form-control' rows='30' id='' name=''><?php echo $webphp; ?></textarea>
+				 <textarea class='form-control' rows='30' id='' name=''><?php echo $webphp8; ?></textarea>
+			</div>				
+		</div>
+  	</div>
+
+</div>
+<br>
+<div class="card">
+ 	<div class="card-header">
+    	Arquivo de rotas web.php do Laravel <= 7
+ 	</div>
+  
+	<div class="card-body">   
+    	<div class="form-row">
+			<div class="col-md-12">
+				 <textarea class='form-control' rows='30' id='' name=''><?php echo $webphp7; ?></textarea>
 			</div>				
 		</div>
   	</div>

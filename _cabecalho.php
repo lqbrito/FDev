@@ -73,6 +73,9 @@
           <li class="nav-item <?php if ($pag == 7) echo "active" ?>">
             <a class="nav-link" href="ferramentas.php">Ferramentas</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../home">Sair</a>
+          </li>
         </ul>
       </div>
     </nav>

@@ -62,18 +62,24 @@
 	  	$_SESSION["tabela"] [$tabela] = $result;		
 	}
 
-	function ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirmodels, $dirviews, $namespace, $tabela, $scriptDeLayout)
+
+
+	/************************************************************************************************************/
+
+	function ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews, $namespace, $tabela, $scriptDeLayout)
 	{
 		ObtemEstruturaTabela($tabela);
 
+		$classetabela = ucfirst($tabela);
+
 		$nomeArquivoLayout = $dirlayouts . DIRECTORY_SEPARATOR . $scriptDeLayout;
 
-		if ($scriptDeLayout == "listagem.php" || 
+		if ($scriptDeLayout == "index.php" || 
 			$scriptDeLayout == "incluir.php" || 
 			$scriptDeLayout == "consultar.php" || 
 			$scriptDeLayout == "alterar.php" || 
 			$scriptDeLayout == "excluir.php" || 
-			$scriptDeLayout == "listagem.blade.php" || 
+			$scriptDeLayout == "index.blade.php" || 
 			$scriptDeLayout == "incluir.blade.php" || 
 			$scriptDeLayout == "consultar.blade.php" || 
 			$scriptDeLayout == "alterar.blade.php" || 
@@ -93,7 +99,7 @@
 		if ($scriptDeLayout == "Controller.php")
 		{
 			if ($_POST['fonte'] == 'laravel')
-				$nomeArquivoDestino = $dircontrollers . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $tabela . $scriptDeLayout;
+				$nomeArquivoDestino = $dircontrollers . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $classetabela . $scriptDeLayout;
 			if ($_POST['fonte'] == 'php')
 				$nomeArquivoDestino = $dircontrollers . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $tabela . '.php';
 			$dir = $dircontrollers . DIRECTORY_SEPARATOR . $namespace;
@@ -102,9 +108,14 @@
 				mkdir($dir);
 		}
 		
+		if ($scriptDeLayout == "Service.php")
+		{
+			$nomeArquivoDestino = $dirservices . DIRECTORY_SEPARATOR . $classetabela . $scriptDeLayout;
+		}
+		
 		if ($scriptDeLayout == "Model.php")
 		{
-			$nomeArquivoDestino = $dirmodels . DIRECTORY_SEPARATOR . $tabela . '.php';
+			$nomeArquivoDestino = $dirmodels . DIRECTORY_SEPARATOR . $classetabela . '.php';
 		}
 		
 		$arquivoOrigem = fopen ($nomeArquivoLayout, 'r'); 	// Abre arquivo de origem
@@ -116,14 +127,18 @@
 
 			$linha = substitui('[namespace]', $namespace, $linha);
 			$linha = substitui('[nome_controller]', $tabela, $linha);
+			$linha = substitui('[nome_service]', $tabela, $linha);
 			$linha = substitui('[nome_model]', $tabela, $linha);
+			$linha = substitui('[nome_classe_controller]', $classetabela, $linha);
+			$linha = substitui('[nome_classe_service]', $classetabela, $linha);
+			$linha = substitui('[nome_classe_model]', $classetabela, $linha);
 			
 			$posini1 = strpos($linha, "[nome_campo]");
 			$posini2 = strpos($linha, "[nome_label]");
 
 			if ($posini1 > 0)
 			{
-				if ($scriptDeLayout == "listagem.blade.php" || $scriptDeLayout == "listagem.php")
+				if ($scriptDeLayout == "index.blade.php" || $scriptDeLayout == "index.php")
 				{
 					foreach ($_SESSION["tabela"] [$tabela] as $tab)
 					{
@@ -137,6 +152,7 @@
 					}
 				} 
 
+				/*
 				if ($scriptDeLayout == "incluir.blade.php" || $scriptDeLayout == "incluir.php")
 				{
 					$cont = 0;
@@ -229,6 +245,7 @@
 						}
 					}
 				}
+				*/
 
 				if ($scriptDeLayout == "consultar.blade.php" || $scriptDeLayout == "consultar.php")
 				{
@@ -257,7 +274,7 @@
 					}
 				}
 
-				if ($scriptDeLayout == "alterar.blade.php" || $scriptDeLayout == "alterar.php")
+				if ($scriptDeLayout == "alterar.blade.php" || $scriptDeLayout == "incluir.blade.php" || $scriptDeLayout == "alterar.php" || $scriptDeLayout == "incluir.php")
 				{
 					$cont = 0;
 
@@ -376,7 +393,7 @@
 					}
 				}
 
-				if ($scriptDeLayout == "Controller.php")
+				if ($scriptDeLayout == "Controller.php" || $scriptDeLayout == "Service.php")
 				{
 					//$novaLinha = $linha;
 					//$novaLinha = substitui('[nome_campo]', "/*", $novaLinha);
@@ -431,7 +448,10 @@
 		fclose($arquivoOrigem);	 // Fecha arquivo de origem
 	}
 
-	function CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirmodels, $dirviews)
+	/************************************************************************************************************/
+
+
+	function CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews)
 	{
 		$diretorio = dir($dirlayouts);
 		while ($arquivo = $diretorio->read())
@@ -451,7 +471,7 @@
 								if ($sub != '.' && $sub != '..')
 								{
 									
-									ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirmodels, $dirviews, $tp, $sub, $arquivo);
+									ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews, $tp, $sub, $arquivo);
 								}
 							}
 						}
@@ -467,12 +487,16 @@
 			$dir = 'projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'scripts';
 			$dirlayouts = 'projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'layouts';
 			$dirnamespaces = 'projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'namespaces';
-			$dircontrollers = $dir . DIRECTORY_SEPARATOR . 'controllers';
-			$dirmodels = $dir . DIRECTORY_SEPARATOR . 'models';
-			$dirviews = $dir . DIRECTORY_SEPARATOR . 'views';
+			$dircontrollers = $dir . DIRECTORY_SEPARATOR . 'Controllers';
+			$dirservices = $dir . DIRECTORY_SEPARATOR . 'Services';
+			$dirmodels = $dir . DIRECTORY_SEPARATOR . 'Models';
+			$dirviews = $dir . DIRECTORY_SEPARATOR . 'Views';
 			
 			if(!is_dir($dircontrollers))
 				mkdir($dircontrollers);
+
+			if(!is_dir($dirservices))
+				mkdir($dirservices);
 
 			if(!is_dir($dirmodels))
 				mkdir($dirmodels);
@@ -480,7 +504,7 @@
 			if(!is_dir($dirviews))
 				mkdir($dirviews);
 
-			CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirmodels, $dirviews);
+			CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews);
 		}
 		catch(Exception $e) 
 		{
@@ -493,10 +517,12 @@
 		try
 		{
 			$dir = 'projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'scripts';;
-			$dircontrollers = $dir . DIRECTORY_SEPARATOR . 'controllers';
-			$dirmodels = $dir . DIRECTORY_SEPARATOR . 'models';
-			$dirviews = $dir . DIRECTORY_SEPARATOR . 'views';
+			$dircontrollers = $dir . DIRECTORY_SEPARATOR . 'Controllers';
+			$dirservices = $dir . DIRECTORY_SEPARATOR . 'Services';
+			$dirmodels = $dir . DIRECTORY_SEPARATOR . 'Models';
+			$dirviews = $dir . DIRECTORY_SEPARATOR . 'Views';
 			delTree($dircontrollers);
+			delTree($dirservices);
 			delTree($dirmodels);
 			delTree($dirviews);
 			echo "<div class='alert alert-info alert-dismissible'>";

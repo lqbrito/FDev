@@ -115,7 +115,7 @@
 	  							$estrutura = 'projects' . DIRECTORY_SEPARATOR . $_SESSION['project'] . DIRECTORY_SEPARATOR . 'scripts' . DIRECTORY_SEPARATOR . $tp;
 	  						
 	  							echo "<li>$tp</li>";
-	  							if ($tp == 'models')
+	  							if ($tp == 'Models')
 	  							{
 	  								echo "<ol class = 'list-unstyled'>";
 	  								$diretorio = dir($estrutura);
@@ -128,7 +128,20 @@
 									echo "</ol>";
 	  							}
 	  							else
-	  								if ($tp == 'controllers')
+	  							if ($tp == 'Services')
+	  							{
+	  								echo "<ol class = 'list-unstyled'>";
+	  								$diretorio = dir($estrutura);
+
+									while ($arquivo = $diretorio->read())
+										if ($arquivo != '.' && $arquivo != '..')
+										echo "<li>$arquivo</li>";					
+									
+									$diretorio->close();
+									echo "</ol>";
+	  							}
+	  							else
+	  								if ($tp == 'Controllers')
 									{
 										$subpastas = scandir($estrutura);
 
@@ -154,7 +167,7 @@
 										}
 									}
 									else
-		  								if ($tp == 'views')
+		  								if ($tp == 'Views')
 										{
 											$subpastas = scandir($estrutura);
 
