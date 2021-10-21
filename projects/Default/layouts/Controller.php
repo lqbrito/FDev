@@ -5,12 +5,9 @@ namespace App\Http\Controllers\[namespace];
 use App\Http\Controllers\GlobalController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\[nome_classe_model];
 use App\Services\[nome_classe_service]Service;
 use Redirect;
 use Session;
-use Exception;
 
 class [nome_classe_controller]Controller extends GlobalController
 {

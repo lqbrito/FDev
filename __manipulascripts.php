@@ -66,7 +66,7 @@
 
 	/************************************************************************************************************/
 
-	function ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews, $namespace, $tabela, $scriptDeLayout)
+	function ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirdomains, $dirviews, $namespace, $tabela, $scriptDeLayout)
 	{
 		ObtemEstruturaTabela($tabela);
 
@@ -116,6 +116,11 @@
 		if ($scriptDeLayout == "Model.php")
 		{
 			$nomeArquivoDestino = $dirmodels . DIRECTORY_SEPARATOR . $classetabela . '.php';
+		}
+		
+		if ($scriptDeLayout == "Domain.php")
+		{
+			$nomeArquivoDestino = $dirdomains . DIRECTORY_SEPARATOR . $classetabela . $scriptDeLayout;
 		}
 		
 		$arquivoOrigem = fopen ($nomeArquivoLayout, 'r'); 	// Abre arquivo de origem
@@ -416,7 +421,7 @@
 					//fwrite($arquivoDestino, $novaLinha);
 				}
 
-				if ($scriptDeLayout == "Model.php")
+				if ($scriptDeLayout == "Model.php" || $scriptDeLayout == "Domain.php")
 				{
 					$st = "";
 					foreach ($_SESSION["tabela"] [$tabela] as $tab)
@@ -451,7 +456,7 @@
 	/************************************************************************************************************/
 
 
-	function CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews)
+	function CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirdomains, $dirviews)
 	{
 		$diretorio = dir($dirlayouts);
 		while ($arquivo = $diretorio->read())
@@ -471,7 +476,7 @@
 								if ($sub != '.' && $sub != '..')
 								{
 									
-									ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews, $tp, $sub, $arquivo);
+									ProcessarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirdomains, $dirviews, $tp, $sub, $arquivo);
 								}
 							}
 						}
@@ -490,6 +495,7 @@
 			$dircontrollers = $dir . DIRECTORY_SEPARATOR . 'Controllers';
 			$dirservices = $dir . DIRECTORY_SEPARATOR . 'Services';
 			$dirmodels = $dir . DIRECTORY_SEPARATOR . 'Models';
+			$dirdomains = $dir . DIRECTORY_SEPARATOR . 'Domains';
 			$dirviews = $dir . DIRECTORY_SEPARATOR . 'Views';
 			
 			if(!is_dir($dircontrollers))
@@ -498,13 +504,16 @@
 			if(!is_dir($dirservices))
 				mkdir($dirservices);
 
+			if(!is_dir($dirdomains))
+				mkdir($dirdomains);
+
 			if(!is_dir($dirmodels))
 				mkdir($dirmodels);
 
 			if(!is_dir($dirviews))
 				mkdir($dirviews);
 
-			CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirviews);
+			CriarScripts($dir, $dirlayouts, $dirnamespaces, $dircontrollers, $dirservices, $dirmodels, $dirdomains, $dirviews);
 		}
 		catch(Exception $e) 
 		{
@@ -520,9 +529,11 @@
 			$dircontrollers = $dir . DIRECTORY_SEPARATOR . 'Controllers';
 			$dirservices = $dir . DIRECTORY_SEPARATOR . 'Services';
 			$dirmodels = $dir . DIRECTORY_SEPARATOR . 'Models';
+			$dirdomains = $dir . DIRECTORY_SEPARATOR . 'Domains';
 			$dirviews = $dir . DIRECTORY_SEPARATOR . 'Views';
 			delTree($dircontrollers);
 			delTree($dirservices);
+			delTree($dirdomains);
 			delTree($dirmodels);
 			delTree($dirviews);
 			echo "<div class='alert alert-info alert-dismissible'>";

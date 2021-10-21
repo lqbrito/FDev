@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Services\GlobalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\[nome_classe_model];
+use App\Domains\[nome_classe_model]Domain;
 use Redirect;
 use Session;
 use Exception;
@@ -21,7 +21,7 @@ class [nome_classe_service]Service extends GlobalService
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
 
 			$nome = $[nome_model]->descricao;
 
@@ -48,7 +48,7 @@ class [nome_classe_service]Service extends GlobalService
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
 
 			return $[nome_model];
 		} 
@@ -66,7 +66,7 @@ class [nome_classe_service]Service extends GlobalService
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
 			
 			[nome_campo]
 
@@ -95,7 +95,7 @@ class [nome_classe_service]Service extends GlobalService
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
 
 			return $[nome_model];
 		} 
@@ -113,7 +113,7 @@ class [nome_classe_service]Service extends GlobalService
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
 
 			return $[nome_model];
 		} 
@@ -131,7 +131,7 @@ class [nome_classe_service]Service extends GlobalService
 	{
 		try
 		{	
-			$[nome_model] = new [nome_classe_model]();
+			$[nome_model] = new [nome_classe_model]Domain();
 			
 			[nome_campo]
 
@@ -160,7 +160,7 @@ class [nome_classe_service]Service extends GlobalService
 	{
 		try
 		{
-			$[nome_model] = new [nome_classe_model]();
+			$[nome_model] = new [nome_classe_model]Domain();
 
 			// Insira aqui os valores para atributos que possuem valor padrão
 
@@ -183,9 +183,9 @@ class [nome_classe_service]Service extends GlobalService
 		$textobusca = $this->buscarpesquisa();
 		$listaTudo = strlen($textobusca) >= $this->tamanhoStringBusca;
 		if ($listaTudo)
-			$[nome_model] = [nome_classe_model]::where('', '=', "")->where('', 'like', '%' . "$textobusca" . '%')->orderBy('', 'asc')->limit($this->limiteRegistros)->get();
+			$[nome_model] = [nome_classe_model]Domain::where('', '=', "")->where('', 'like', '%' . "$textobusca" . '%')->orderBy('', 'asc')->limit($this->limiteRegistros)->get();
 		else
-			$[nome_model] = [nome_classe_model]::where('', '=', "")->orderBy('', 'asc')->paginate(10);
+			$[nome_model] = [nome_classe_model]Domain::where('', '=', "")->orderBy('', 'asc')->paginate(10);
 		
 		return ['[nome_model]' => $[nome_model], 'listaTudo' => $listaTudo, 'tamanhoStringBusca' => $this->tamanhoStringBusca, 'textobusca' => $textobusca];
 	}

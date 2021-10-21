@@ -128,6 +128,19 @@
 									echo "</ol>";
 	  							}
 	  							else
+	  							if ($tp == 'Domains')
+	  							{
+	  								echo "<ol class = 'list-unstyled'>";
+	  								$diretorio = dir($estrutura);
+
+									while ($arquivo = $diretorio->read())
+										if ($arquivo != '.' && $arquivo != '..')
+										echo "<li>$arquivo</li>";					
+									
+									$diretorio->close();
+									echo "</ol>";
+	  							}
+	  							else
 	  							if ($tp == 'Services')
 	  							{
 	  								echo "<ol class = 'list-unstyled'>";

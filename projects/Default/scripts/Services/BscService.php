@@ -5,12 +5,12 @@ namespace App\Services;
 use App\Services\GlobalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Colaboradores;
+use App\Domains\BscDomain;
 use Redirect;
 use Session;
 use Exception;
 
-class ColaboradoresService extends GlobalService
+class BscService extends GlobalService
 {
     public function pesquisar(Request $request)
     {
@@ -21,12 +21,12 @@ class ColaboradoresService extends GlobalService
 	{
 		try
 		{	
-			$colaboradores = Colaboradores::findorfail($request->id);
+			$bsc = BscDomain::findorfail($request->id);
 
-			$nome = $colaboradores->descricao;
+			$nome = $bsc->descricao;
 
 			DB::beginTransaction();
-			$colaboradores->delete();
+			$bsc->delete();
 	        DB::commit();
 
 	        Session::Flash('Status', "Exclusão de '$nome' realizada com sucesso");
@@ -48,9 +48,9 @@ class ColaboradoresService extends GlobalService
 	{
 		try
 		{	
-			$colaboradores = Colaboradores::findorfail($request->id);
+			$bsc = BscDomain::findorfail($request->id);
 
-			return $colaboradores;
+			return $bsc;
 		} 
 		catch (\Exception $e) 
 		{
@@ -66,22 +66,16 @@ class ColaboradoresService extends GlobalService
 	{
 		try
 		{	
-			$colaboradores = Colaboradores::findorfail($request->id);
+			$bsc = BscDomain::findorfail($request->id);
 			
-			$colaboradores->idusuario = $request->idusuario;
-			$colaboradores->idestruturaempresarial = $request->idestruturaempresarial;
-			$colaboradores->name = $request->name;
-			$colaboradores->rg = $request->rg;
-			$colaboradores->orgaoexpedidor = $request->orgaoexpedidor;
-			$colaboradores->datanascimento = $request->datanascimento;
-			$colaboradores->sexo = $request->sexo;
-			$colaboradores->idcadastro = $request->idcadastro;
-			$colaboradores->status = $request->status;
-			$colaboradores->nivelvisao = $request->nivelvisao;
-			$colaboradores->acoes = $request->acoes;
+			$bsc->descricao = $request->descricao;
+			$bsc->idempresa = $request->idempresa;
+			$bsc->idgrupo = $request->idgrupo;
+			$bsc->idsubgrupo = $request->idsubgrupo;
+			$bsc->observacoes = $request->observacoes;
 
 			DB::beginTransaction();
-			$colaboradores->save();
+			$bsc->save();
 	        DB::commit();
 
 	        $nome = $request->descricao;
@@ -105,9 +99,9 @@ class ColaboradoresService extends GlobalService
 	{
 		try
 		{	
-			$colaboradores = Colaboradores::findorfail($request->id);
+			$bsc = BscDomain::findorfail($request->id);
 
-			return $colaboradores;
+			return $bsc;
 		} 
 		catch (\Exception $e) 
 		{
@@ -123,9 +117,9 @@ class ColaboradoresService extends GlobalService
 	{
 		try
 		{	
-			$colaboradores = Colaboradores::findorfail($request->id);
+			$bsc = BscDomain::findorfail($request->id);
 
-			return $colaboradores;
+			return $bsc;
 		} 
 		catch (\Exception $e) 
 		{
@@ -141,22 +135,16 @@ class ColaboradoresService extends GlobalService
 	{
 		try
 		{	
-			$colaboradores = new Colaboradores();
+			$bsc = new BscDomain();
 			
-			$colaboradores->idusuario = $request->idusuario;
-			$colaboradores->idestruturaempresarial = $request->idestruturaempresarial;
-			$colaboradores->name = $request->name;
-			$colaboradores->rg = $request->rg;
-			$colaboradores->orgaoexpedidor = $request->orgaoexpedidor;
-			$colaboradores->datanascimento = $request->datanascimento;
-			$colaboradores->sexo = $request->sexo;
-			$colaboradores->idcadastro = $request->idcadastro;
-			$colaboradores->status = $request->status;
-			$colaboradores->nivelvisao = $request->nivelvisao;
-			$colaboradores->acoes = $request->acoes;
+			$bsc->descricao = $request->descricao;
+			$bsc->idempresa = $request->idempresa;
+			$bsc->idgrupo = $request->idgrupo;
+			$bsc->idsubgrupo = $request->idsubgrupo;
+			$bsc->observacoes = $request->observacoes;
 
 			DB::beginTransaction();
-			$colaboradores->save();
+			$bsc->save();
 	        DB::commit();
 
 	        $nome = $request->descricao;
@@ -180,11 +168,11 @@ class ColaboradoresService extends GlobalService
 	{
 		try
 		{
-			$colaboradores = new Colaboradores();
+			$bsc = new BscDomain();
 
 			// Insira aqui os valores para atributos que possuem valor padrão
 
-			return $colaboradores;
+			return $bsc;
 		} 
 		catch (\Exception $e) 
 		{
@@ -203,10 +191,10 @@ class ColaboradoresService extends GlobalService
 		$textobusca = $this->buscarpesquisa();
 		$listaTudo = strlen($textobusca) >= $this->tamanhoStringBusca;
 		if ($listaTudo)
-			$colaboradores = Colaboradores::where('', '=', "")->where('', 'like', '%' . "$textobusca" . '%')->orderBy('', 'asc')->limit($this->limiteRegistros)->get();
+			$bsc = BscDomain::where('', '=', "")->where('', 'like', '%' . "$textobusca" . '%')->orderBy('', 'asc')->limit($this->limiteRegistros)->get();
 		else
-			$colaboradores = Colaboradores::where('', '=', "")->orderBy('', 'asc')->paginate(10);
+			$bsc = BscDomain::where('', '=', "")->orderBy('', 'asc')->paginate(10);
 		
-		return ['colaboradores' => $colaboradores, 'listaTudo' => $listaTudo, 'tamanhoStringBusca' => $this->tamanhoStringBusca, 'textobusca' => $textobusca];
+		return ['bsc' => $bsc, 'listaTudo' => $listaTudo, 'tamanhoStringBusca' => $this->tamanhoStringBusca, 'textobusca' => $textobusca];
 	}
 }

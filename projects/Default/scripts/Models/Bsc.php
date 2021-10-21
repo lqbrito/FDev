@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Estados extends Model
+class Bsc extends Model
 {
-    protected $table = 'estados';
+    protected $table = 'bsc';
     //protected $primaryKey = 'id';
     //public $timestamps = true;
     protected $fillable = [
-        'estado', 'sigla', 
+        'descricao', 'idempresa', 'idgrupo', 'idsubgrupo', 'observacoes', 
     ];
 }
