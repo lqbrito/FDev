@@ -17,11 +17,11 @@ class [nome_classe_service]Service extends GlobalService
         parent::pesquisar($request);
     }
     
-    public function excluindo(Request $request)
+    public function excluindo($id)
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($id);
 
 			$nome = $[nome_model]->descricao;
 
@@ -44,11 +44,11 @@ class [nome_classe_service]Service extends GlobalService
 		}
 	}
 
-	public function excluir(Request $request)
+	public function excluir($id)
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($id);
 
 			return $[nome_model];
 		} 
@@ -91,11 +91,11 @@ class [nome_classe_service]Service extends GlobalService
 		}
 	}
 
-	public function alterar(Request $request)
+	public function alterar($id)
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($id);
 
 			return $[nome_model];
 		} 
@@ -109,11 +109,11 @@ class [nome_classe_service]Service extends GlobalService
 		}
 	}
 
-	public function consultar(Request $request)
+	public function consultar($id)
 	{
 		try
 		{	
-			$[nome_model] = [nome_classe_model]Domain::findorfail($request->id);
+			$[nome_model] = [nome_classe_model]Domain::findorfail($id);
 
 			return $[nome_model];
 		} 
@@ -169,8 +169,6 @@ class [nome_classe_service]Service extends GlobalService
 		catch (\Exception $e) 
 		{
 			report($e);
-			DB::rollBack();
-
 			Session::Flash('Erro', $e->getMessage());
 			
 			return null;

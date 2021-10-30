@@ -28,15 +28,16 @@
 				foreach ($subpastas as $sub)
 				if ($sub != '.' && $sub != '..')
 				{
-					$webphp7 .= "\n\n\tRoute::get('/$sub', '$sub" . "Controller@index');";
-					$webphp7 .= "\n\tRoute::get('/$sub/incluir', '$sub" . "Controller@incluir');";
-					$webphp7 .= "\n\tRoute::post('/$sub/incluindo', '$sub" . "Controller@incluindo');";
-					$webphp7 .= "\n\tRoute::post('/$sub/consultar', '$sub" . "Controller@consultar');";
-					$webphp7 .= "\n\tRoute::post('/$sub/alterar', '$sub" . "Controller@alterar');";
-					$webphp7 .= "\n\tRoute::post('/$sub/alterando', '$sub" . "Controller@alterando');";
-					$webphp7 .= "\n\tRoute::post('/$sub/excluir', '$sub" . "Controller@excluir');";
-					$webphp7 .= "\n\tRoute::post('/$sub/excluindo', '$sub" . "Controller@excluindo');";
-					$webphp7 .= "\n\tRoute::any('/$sub/pesquisar', '$sub" . "Controller@pesquisar');";
+					$classetabela = ucfirst($sub);
+					$webphp7 .= "\n\n\tRoute::get('/$sub', '$classetabela" . "Controller@index');";
+					$webphp7 .= "\n\tRoute::get('/$sub/incluir', '$classetabela" . "Controller@incluir');";
+					$webphp7 .= "\n\tRoute::post('/$sub/incluindo', '$classetabela" . "Controller@incluindo');";
+					$webphp7 .= "\n\tRoute::post('/$sub/consultar', '$classetabela" . "Controller@consultar');";
+					$webphp7 .= "\n\tRoute::post('/$sub/alterar', '$classetabela" . "Controller@alterar');";
+					$webphp7 .= "\n\tRoute::post('/$sub/alterando', '$classetabela" . "Controller@alterando');";
+					$webphp7 .= "\n\tRoute::post('/$sub/excluir', '$classetabela" . "Controller@excluir');";
+					$webphp7 .= "\n\tRoute::post('/$sub/excluindo', '$classetabela" . "Controller@excluindo');";
+					$webphp7 .= "\n\tRoute::any('/$sub/pesquisar', '$classetabela" . "Controller@pesquisar');";
 				}
 			}
 

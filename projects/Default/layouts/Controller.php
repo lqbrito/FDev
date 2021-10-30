@@ -30,7 +30,7 @@ class [nome_classe_controller]Controller extends GlobalController
 	{
 		$this->validausuario();
 
-		if ($this->[nome_service]Service->excluindo($request))
+		if ($this->[nome_service]Service->excluindo($request->id))
 			return Redirect::to("/[nome_controller]");
 		else
 			return back()->withInput();
@@ -40,7 +40,7 @@ class [nome_classe_controller]Controller extends GlobalController
 	{
 		$this->validausuario();
 
-		$[nome_model] = $this->[nome_service]Service->excluir($request);
+		$[nome_model] = $this->[nome_service]Service->excluir($request->id);
 
 		if (isset($[nome_model]))
 			return view('[namespace].[nome_model].excluir', ['[nome_model]' => $[nome_model]]);
@@ -62,7 +62,7 @@ class [nome_classe_controller]Controller extends GlobalController
 	{
 		$this->validausuario();
 
-		$[nome_model] = $this->[nome_service]Service->alterar($request);
+		$[nome_model] = $this->[nome_service]Service->alterar($request->id);
 
 		if (isset($[nome_model]))
 			return view('[namespace].[nome_model].alterar', ['[nome_model]' => $[nome_model]]);
@@ -74,7 +74,7 @@ class [nome_classe_controller]Controller extends GlobalController
 	{
 		$this->validausuario();
 
-		$[nome_model] = $this->[nome_service]Service->consultar($request);
+		$[nome_model] = $this->[nome_service]Service->consultar($request->id);
 
 		if (isset($[nome_model]))
 			return view('[namespace].[nome_model].consultar', ['[nome_model]' => $[nome_model]]);
